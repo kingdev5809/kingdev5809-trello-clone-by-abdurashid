@@ -7,7 +7,7 @@ import TaskCard from "../TaskCard";
 import EditField from "../EditField";
 import { StyledColumnCard } from "./style";
 import { apiService } from "@/services/api";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 
 interface ColumnCardProps {
   column: Column;
@@ -36,8 +36,6 @@ const ColumnCard: React.FC<ColumnCardProps> = ({ column, tasks = [] }) => {
     },
   });
 
-  const columnTasks = tasks.sort((a, b) => a.order - b.order);
-
   const handleSaveCol = useCallback(
     async (value: string) => {
       if (value.trim() !== "") {
@@ -62,14 +60,13 @@ const ColumnCard: React.FC<ColumnCardProps> = ({ column, tasks = [] }) => {
           id: Date.now(),
           name: value,
           columnId: column.id,
-          order: columnTasks.length,
         };
         const res = await apiService.createTask(newTask);
         addTask(column.id, res);
         setIsAdding(false);
       }
     },
-    [column.id, columnTasks.length, addTask]
+    [column.id, tasks.length, addTask]
   );
 
   return (
@@ -93,7 +90,7 @@ const ColumnCard: React.FC<ColumnCardProps> = ({ column, tasks = [] }) => {
       )}
       <div className="col-content">
         <div className="task-list">
-          {columnTasks.map((task) => (
+          {tasks.map((task) => (
             <TaskCard key={task.id} task={task} columnId={column.id} />
           ))}
         </div>

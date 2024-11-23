@@ -7,7 +7,6 @@ export interface Task {
   id: number;
   name: string;
   columnId: number;
-  order: number;
 }
 
 export interface Column {

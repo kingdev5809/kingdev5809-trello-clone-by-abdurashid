@@ -18,7 +18,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, columnId }) => {
 
   const [{ isDragging }, drag] = useDrag({
     type: "TASK_CARD",
-    item: { id: task.id, columnId, order: task.order },
+    item: { id: task.id, columnId, },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
